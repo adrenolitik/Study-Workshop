@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          var origFetch = window.fetch ? window.fetch.bind(window) : null;
+          var customFetch = origFetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function() { return customFetch; },
+            set: function(val) { customFetch = val; },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {}
+
+        window.addEventListener('error', function(event) {
+          if (event && event.filename && event.filename.indexOf('chrome-extension://') !== -1) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+          }
+        }, true);
+      })();
+    </script>
+    <title>Учебный комплект — Персональный набор средств обучения</title>
+    <meta name="description" content="Веб-приложение для самостоятельной подготовки студентов: автоматическое создание конспектов, подкастов, тестов, карточек и чата по учебным материалам." />
+    <meta property="og:title" content="Учебный комплект — Персональный набор средств обучения" />
+    <meta property="og:description" content="Веб-приложение для самостоятельной подготовки студентов: автоматическое создание конспектов, подкастов, тестов, карточек и чата по учебным материалам." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
